@@ -1,7 +1,7 @@
 "use client";
 import createEvent from "@/actions/create-event";
 import { Button } from "@/components/ui/button";
-import { Control, FieldArrayWithId, UseFormRegister } from "react-hook-form";
+import { Control, UseFormRegister } from "react-hook-form";
 
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -32,16 +32,27 @@ import states from "./states";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Calendar as CIcon } from "lucide-react";
+import { Calendar as CIcon, SquareX } from "lucide-react";
 
+import { Label } from "@radix-ui/react-dropdown-menu";
 import { useRouter } from "next/navigation";
 import { useFieldArray, useForm } from "react-hook-form";
 import { z } from "zod";
 
+interface FormValues {
+  event_items: {
+    name: string;
+    items: {
+      name: string;
+      who: string;
+    }[];
+  }[];
+}
+
 interface ItemFieldArrayProps {
   nestIndex: number;
-  control: Control<FormValues>; // Control from react-hook-form
-  register: UseFormRegister<FormValues>; // Register from react-hook-form
+  control: Control<FormValues>;
+  register: UseFormRegister<FormValues>;
 }
 
 const ItemFieldArray: React.FC<ItemFieldArrayProps> = ({
@@ -61,28 +72,36 @@ const ItemFieldArray: React.FC<ItemFieldArrayProps> = ({
   return (
     <div>
       {itemFields.map((item, itemIndex) => (
-        <div key={item.id}>
-          <input
+        <div key={item.id} className="my-2 flex items-center gap-2">
+          <Input
             {...register(
               `event_items.${nestIndex}.items.${itemIndex}.name` as const,
             )}
             placeholder="Item Name"
           />
-          <input
+          <Input
             {...register(
               `event_items.${nestIndex}.items.${itemIndex}.who` as const,
             )}
             placeholder="Who is bringing this?"
           />
-          <button type="button" onClick={() => removeItem(itemIndex)}>
+          <Button
+            type="button"
+            variant="ghost"
+            onClick={() => removeItem(itemIndex)}
+          >
             Remove Item
-          </button>
+          </Button>
         </div>
       ))}
 
-      <button type="button" onClick={() => appendItem({ name: "", who: "" })}>
+      <Button
+        className="my-2"
+        type="button"
+        onClick={() => appendItem({ name: "", who: "" })}
+      >
         Add Item
-      </button>
+      </Button>
     </div>
   );
 };
@@ -205,60 +224,29 @@ const Page = () => {
         <FormItem>
           <FormLabel>{label}</FormLabel>
           <FormControl>
-            <Input {...field} placeholder={placeholder} type={type} />
+            <Input
+              {...field}
+              placeholder={placeholder}
+              type={type}
+              value={
+                field.value instanceof Date
+                  ? field.value.toISOString().split("T")[0] // Convert Date to string
+                  : Array.isArray(field.value)
+                    ? JSON.stringify(field.value) // Convert array to string
+                    : field.value
+              }
+            />
           </FormControl>
           <FormMessage />
         </FormItem>
       )}
     />
   );
+
   return (
     <section className="container flex justify-center">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <div>
-            {/* Other form fields like event_name, event_description can be here */}
-            <div>
-              <h2>Event Items (Categories and Items)</h2>
-              {categoryFields.map((category, categoryIndex) => (
-                <div key={category.id}>
-                  <h3>Category {categoryIndex + 1}</h3>
-                  <Input
-                    {...form.register(`event_items.${categoryIndex}.name`)}
-                    placeholder="Category Name"
-                  />
-
-                  {/* Items within each category */}
-                  <div>
-                    <h4>Items</h4>
-                    <ItemFieldArray
-                      nestIndex={categoryIndex}
-                      control={form.control}
-                      register={form.register}
-                    />
-                  </div>
-
-                  {/* Remove Category Button */}
-                  <Button
-                    type="button"
-                    onClick={() => removeCategory(categoryIndex)}
-                  >
-                    Remove Category
-                  </Button>
-                </div>
-              ))}
-
-              {/* Add Category Button */}
-              <Button
-                type="button"
-                onClick={() =>
-                  appendCategory({ name: "", items: [{ name: "", who: "" }] })
-                }
-              >
-                Add Category
-              </Button>
-            </div>
-          </div>
           {renderFormField(
             "event_name",
             "Event Name",
@@ -360,6 +348,52 @@ const Page = () => {
               )}
             />
             {renderFormField("event_zip_code", "Zip Code", "80210")}
+          </div>
+
+          {/* Other form fields like event_name, event_description can be here */}
+          <div>
+            <h2 className="mb-4 mt-20 text-2xl">Sign up List</h2>
+            {categoryFields.map((category, categoryIndex) => (
+              <div key={category.id}>
+                <div className="my-4 flex justify-between">
+                  {/* <h3>{category.name} </h3> */}
+                  <div>
+                    <Label>Category Name</Label>
+                    <Input
+                      {...form.register(`event_items.${categoryIndex}.name`)}
+                      placeholder="Category Name"
+                    />
+                  </div>
+                  <Button
+                    type="button"
+                    onClick={() => removeCategory(categoryIndex)}
+                    variant="destructive"
+                  >
+                    <SquareX />
+                  </Button>
+                </div>
+
+                {/* Items within each category */}
+                <div>
+                  <h4 className="text-lg">Items</h4>
+                  <ItemFieldArray
+                    nestIndex={categoryIndex}
+                    control={form.control}
+                    register={form.register}
+                  />
+                </div>
+              </div>
+            ))}
+
+            {/* Add Category Button */}
+            <Button
+              type="button"
+              onClick={() =>
+                appendCategory({ name: "", items: [{ name: "", who: "" }] })
+              }
+            >
+              Add Category
+            </Button>
           </div>
 
           <Button type="submit" disabled={form.formState.isSubmitting}>

@@ -1,7 +1,8 @@
-import { default as HeaderAuth, default as Nav } from "@/components/Nav";
+import Nav from "@/components/Nav";
+import { Toaster } from "@/components/ui/toaster";
 import { GeistSans } from "geist/font/sans";
 import { ThemeProvider } from "next-themes";
-import Link from "next/link";
+
 import "./globals.css";
 
 const defaultUrl = process.env.VERCEL_URL
@@ -10,8 +11,9 @@ const defaultUrl = process.env.VERCEL_URL
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
-  title: "Next.js and Supabase Starter Kit",
-  description: "The fastest way to build apps with Next.js and Supabase",
+  title: "Party Host",
+  description:
+    "Plan the perfect party with ease! Create custom lists for food, drinks, and decor, and let guests sign up to bring what you need. Simplify your party planning today.",
 };
 
 export default function RootLayout({
@@ -28,19 +30,12 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <main className="min-h-screen flex flex-col items-center">
-            <div className="flex-1 w-full flex flex-col gap-20 items-center">
-              <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
-                <Nav />
-              </nav>
-              <div className="flex flex-col gap-20 max-w-5xl p-5">
-                {children}
-              </div>
-
-              <footer className="w-full flex items-center justify-center border-t mx-auto text-center text-xs gap-8 py-16"></footer>
-            </div>
+          <main className="min-h-screen">
+            <Nav />
+            <div className="container">{children}</div>
           </main>
         </ThemeProvider>
+        <Toaster />
       </body>
     </html>
   );

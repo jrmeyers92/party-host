@@ -10,27 +10,37 @@ export default async function Nav() {
   } = await createClient().auth.getUser();
 
   return user ? (
-    <nav className="flex items-center gap-4 justify-between w-full max-w-2xl px-4">
-      <Link href={"/"}>Party Host</Link>
-      Hey, {user.email}!
-      <form action={signOutAction}>
-        <Button type="submit" variant={"outline"}>
-          Sign out
-        </Button>
-      </form>
-    </nav>
+    <header className="flex w-full items-center justify-center border-b py-8">
+      <nav className="flex w-full max-w-2xl items-center justify-between gap-4 px-4">
+        <Link href={"/"} className="text-2xl font-bold">
+          Party Host
+        </Link>
+        <div className="flex items-center gap-4">
+          <ThemeSwitcher />
+          <form action={signOutAction}>
+            <Button type="submit" variant={"outline"}>
+              Sign out
+            </Button>
+          </form>
+        </div>
+      </nav>
+    </header>
   ) : (
-    <nav className="flex gap-2 items-center justify-between max-w-2xl w-full px-4">
-      <Link href={"/"}>Party Host</Link>
-      <div className="flex items-center gap-2">
-        <ThemeSwitcher />
-        <Button asChild size="sm" variant={"outline"}>
-          <Link href="/sign-in">Sign in</Link>
-        </Button>
-        <Button asChild size="sm" variant={"default"}>
-          <Link href="/sign-up">Sign up</Link>
-        </Button>
-      </div>
-    </nav>
+    <header className="my-8 flex w-full items-center justify-center">
+      <nav className="flex w-full max-w-2xl items-center justify-between gap-2 px-4">
+        <Link href={"/"} className="text-2xl font-bold">
+          Party Host
+        </Link>
+        <div className="flex items-center gap-2">
+          <ThemeSwitcher />
+          <Button asChild size="sm" variant={"outline"}>
+            <Link href="/sign-in">Sign in</Link>
+          </Button>
+          <Button asChild size="sm" variant={"default"}>
+            <Link href="/sign-up">Sign up</Link>
+          </Button>
+        </div>
+      </nav>
+    </header>
   );
 }

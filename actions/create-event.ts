@@ -10,10 +10,12 @@ interface EventData {
   event_city: string;
   event_state: string;
   event_zip_code: string;
+  event_date: Date | string;
 }
 
 const createEvent = async (eventData: EventData) => {
   try {
+    eventData.event_date = eventData.event_date.toString();
     const supabase = createClient();
     const { data, error } = await supabase
       .from("events")

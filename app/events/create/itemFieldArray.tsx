@@ -1,13 +1,15 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Minus, Plus } from "lucide-react";
 import React from "react";
 import { Control, UseFormRegister, useFieldArray } from "react-hook-form";
+import { FormValues } from "./page"; // Adjust the import path as needed
 
 interface ItemFieldArrayProps {
   nestIndex: number;
-  control: Control<any>;
-  register: UseFormRegister<any>;
+  control: Control<FormValues>;
+  register: UseFormRegister<FormValues>;
 }
 
 const ItemFieldArray: React.FC<ItemFieldArrayProps> = ({
@@ -27,7 +29,7 @@ const ItemFieldArray: React.FC<ItemFieldArrayProps> = ({
   return (
     <div>
       {itemFields.map((item, itemIndex) => (
-        <div key={item.id} className="mb-4">
+        <div key={item.id} className="mb-4 flex items-center gap-2">
           <Input
             {...register(
               `event_items.${nestIndex}.items.${itemIndex}.name` as const,
@@ -40,13 +42,22 @@ const ItemFieldArray: React.FC<ItemFieldArrayProps> = ({
             )}
             placeholder="Who is bringing this?"
           />
-          <Button type="button" onClick={() => removeItem(itemIndex)}>
+          <Button
+            type="button"
+            variant="destructive"
+            onClick={() => removeItem(itemIndex)}
+          >
+            <Minus />
             Remove Item
           </Button>
         </div>
       ))}
-      <Button type="button" onClick={() => appendItem({ name: "", who: "" })}>
-        Add Item
+      <Button
+        type="button"
+        variant="secondary"
+        onClick={() => appendItem({ name: "", who: "" })}
+      >
+        <Plus /> Add Item
       </Button>
     </div>
   );

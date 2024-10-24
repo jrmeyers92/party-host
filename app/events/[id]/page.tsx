@@ -1,6 +1,8 @@
 import { Button, buttonVariants } from "@/components/ui/button";
+
 import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";
+import DeleteEventDialog from "./edit/DeleteEventDialog";
 const fetchEvent = async (id: string) => {
   const supabase = createClient();
 
@@ -27,8 +29,6 @@ export default async function Page({ params }: { params: { id: string } }) {
       day: "numeric",
     });
 
-    console.log(event);
-
     const eventStartTime = new Date(
       `1970-01-01T${event.event_start_time}`,
     ).toLocaleTimeString("en-US", {
@@ -50,12 +50,16 @@ export default async function Page({ params }: { params: { id: string } }) {
         <div className="w-full max-w-2xl">
           <div className="flex items-center justify-between">
             <h1 className="text-4xl font-bold">{event.event_name}</h1>
-            <Link
-              href={`/events/${params.id}/edit`}
-              className={buttonVariants()}
-            >
-              Edit Event
-            </Link>
+            <div className="flex flex-col gap-2">
+              <DeleteEventDialog eventId={params.id} />
+
+              <Link
+                href={`/events/${params.id}/edit`}
+                className={buttonVariants()}
+              >
+                Edit Event
+              </Link>
+            </div>
           </div>
           <p className="text-sm text-muted-foreground">
             {event.event_description}

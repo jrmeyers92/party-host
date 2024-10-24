@@ -89,27 +89,10 @@ const Page = () => {
 
   const defaultItems = [
     {
-      name: "Appetizers",
+      name: "",
       items: [
         {
-          name: "chips",
-          who: "",
-        },
-        {
-          name: "salsa",
-          who: "",
-        },
-      ],
-    },
-    {
-      name: "Sides",
-      items: [
-        {
-          name: "Mashed Potatoes",
-          who: "",
-        },
-        {
-          name: "Green Beans",
+          name: "",
           who: "",
         },
       ],
@@ -320,7 +303,7 @@ const Page = () => {
                     <Input
                       className="text-xl"
                       {...form.register(`event_items.${categoryIndex}.name`)}
-                      placeholder="Category Name"
+                      placeholder="Appetizers"
                     />
                   </div>
                 </div>

@@ -12,6 +12,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
+import { Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -49,7 +50,7 @@ const DeleteEventDialog = ({ eventId }: DeleteEventDialogProps) => {
         className={buttonVariants({ variant: "destructive" })}
         onClick={() => setOpen(true)} // Open the dialog
       >
-        Delete Event
+        <Trash2 /> Delete Event
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

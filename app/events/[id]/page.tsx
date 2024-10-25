@@ -1,7 +1,9 @@
 import { buttonVariants } from "@/components/ui/button";
 
 import { createClient } from "@/utils/supabase/server";
+import { Pencil } from "lucide-react";
 import Link from "next/link";
+import ShareButton from "../(event components)/ShareButton";
 import DeleteEventDialog from "./edit/DeleteEventDialog";
 const fetchEvent = async (id: string) => {
   const supabase = createClient();
@@ -63,10 +65,12 @@ export default async function Page({ params }: { params: { id: string } }) {
             <div className="flex flex-col gap-2">
               {usersEvent && (
                 <div className="flex flex-col gap-2">
+                  <ShareButton />
                   <Link
                     href={`/events/${params.id}/edit`}
-                    className={buttonVariants()}
+                    className={buttonVariants({ variant: "secondary" })}
                   >
+                    <Pencil />
                     Edit Event
                   </Link>
                   <DeleteEventDialog eventId={params.id} />
@@ -79,6 +83,7 @@ export default async function Page({ params }: { params: { id: string } }) {
           </p>
           <h2 className="mt-4 text-xl font-bold">When?</h2>
           <p>{eventDate}</p>
+
           <p>
             {eventStartTime} to {eventEndTime}
           </p>
@@ -90,7 +95,9 @@ export default async function Page({ params }: { params: { id: string } }) {
 
           {event.event_items && (
             <div>
-              <h2 className="mt-4 text-xl font-bold">Event Sign Up List</h2>
+              <h2 className="mb-4 mt-8 text-xl font-bold">
+                Event Sign Up List
+              </h2>
               {event.event_items.map((item: any) => (
                 <div key={item.name} className="mb-3 flex flex-col">
                   <h3 className="text-lg">{item.name}</h3>

@@ -1,8 +1,10 @@
 import { createClient } from "@/utils/supabase/server";
-import { useParams } from "next/navigation";
+import EventForm from "../../(form)/EventForm";
 
 const fetchEvent = async (id: string) => {
   const supabase = createClient();
+
+  const user = await supabase.auth.getUser();
 
   const { data: event, error } = await supabase
     .from("events")
@@ -10,15 +12,24 @@ const fetchEvent = async (id: string) => {
     .eq("id", id)
     .single();
 
+  if (user?.data?.user?.id != event.user_id) {
+    return { error: "User not authorized to edit this event" };
+  }
+
   return { event, error };
 };
 
 const page = async ({ params }: { params: { id: string } }) => {
   // get id from url parameters
   const event = await fetchEvent(params.id);
-  console.log(event);
 
-  return <div>My Post: {params.id}</div>;
+  console.log(params.id);
+
+  return (
+    <div>
+      <EventForm event={event.event} eventId={params.id} />
+    </div>
+  );
 };
 
 export default page;

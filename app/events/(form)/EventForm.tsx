@@ -1,8 +1,10 @@
 "use client";
 import createEvent from "@/actions/create-event";
 import { Button } from "@/components/ui/button";
+import { EventType } from "@/types/Event";
+import { createClient } from "@/utils/supabase/client";
+import { formSchema } from "./EventFormSchema";
 
-import states from "@/app/events/create/states";
 import { Calendar } from "@/components/ui/calendar";
 import {
   Form,
@@ -12,6 +14,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Popover,
   PopoverContent,
@@ -24,72 +28,54 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
-import { format } from "date-fns";
-
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Calendar as CIcon, Minus, Plus, SquareX } from "lucide-react";
+import { format } from "date-fns";
+import { Calendar as CIcon, Minus, Plus } from "lucide-react";
+import states from "./States";
 
-import ItemFieldArray from "@/app/events/create/itemFieldArray";
+import updateEvent from "@/actions/update-event";
 import { useRouter } from "next/navigation";
 import { useFieldArray, useForm } from "react-hook-form";
 import { z } from "zod";
+import ItemFieldArray from "./ItemFieldArray"; // Adjust the import path as needed
 
-export interface FormValues {
-  event_name: string;
-  event_description: string;
-  event_start_time: string;
-  event_end_time: string;
-  event_street_address: string;
-  event_city: string;
-  event_state: string;
-  event_zip_code: string;
-  event_date: Date;
-  event_items: {
-    name: string;
-    items: {
-      name: string;
-      who: string;
-    }[];
-  }[];
+interface EventFormProps {
+  event?: EventType | null;
+  eventId?: string;
 }
 
-const itemSchema = z.object({
-  name: z.string(),
-  who: z.string(),
-});
-
-const categorySchema = z.object({
-  name: z.string(),
-  items: z.array(itemSchema),
-});
-
-const ListSchema = z.array(categorySchema);
-
-const formSchema = z.object({
-  event_name: z.string().min(2).max(50),
-  event_description: z.string().min(2).max(200),
-  event_start_time: z.string(),
-  event_end_time: z.string(),
-  event_street_address: z.string().min(2).max(50),
-  event_city: z.string().min(2).max(50),
-  event_state: z.string().min(2).max(50),
-  event_zip_code: z.string().min(2).max(50),
-  event_date: z.date(),
-  event_items: ListSchema,
-});
-
-const CreateEventForm = () => {
+const EventForm: React.FC<EventFormProps> = ({ event, eventId }) => {
+  const supabase = createClient();
   const router = useRouter();
   const { toast } = useToast();
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
+  const user = supabase.auth.getUser();
+
+  if (!user) {
+    router.push("/login");
+    return null;
+  }
+
+  let defaultValues;
+
+  if (event) {
+    defaultValues = {
+      event_name: event.event_name,
+      event_description: event.event_description,
+      event_start_time: event.event_start_time,
+      event_end_time: event.event_end_time,
+      event_street_address: event.event_street_address,
+      event_city: event.event_city,
+      event_state: event.event_state,
+      event_zip_code: event.event_zip_code,
+      event_date: new Date(event.event_date),
+      event_items: event.event_items,
+    };
+  } else {
+    defaultValues = {
       event_name: "",
       event_description: "",
       event_start_time: "",
@@ -99,8 +85,23 @@ const CreateEventForm = () => {
       event_state: "",
       event_zip_code: "",
       event_date: new Date(),
-      event_items: [{ name: "", items: [{ name: "", who: "" }] }],
-    },
+      event_items: [
+        {
+          name: "",
+          items: [
+            {
+              name: "",
+              who: "",
+            },
+          ],
+        },
+      ],
+    };
+  }
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues,
   });
 
   const {
@@ -109,27 +110,48 @@ const CreateEventForm = () => {
     remove: removeCategory,
   } = useFieldArray({
     control: form.control,
-    name: "event_items", // Array of categories
+    name: "event_items",
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    try {
-      const newEvent = await createEvent(values);
-      form.reset();
-      toast({
-        title: "Success",
-        description: "Your event has been created.",
-      });
-      if (newEvent.data && newEvent.data.length > 0) {
-        router.push(`/events/${newEvent.data[0].id}`);
+    if (event) {
+      try {
+        const updatedEvent = await updateEvent(values, eventId!);
+        toast({
+          title: "Success",
+          description: "Your event has been updated.",
+        });
+        console.log(updatedEvent);
+        if (updatedEvent.data && updatedEvent.data.length > 0) {
+          router.push(`/events/${updatedEvent.data[0].id}`);
+        }
+      } catch (error) {
+        console.error("Error updating event:", error);
+        toast({
+          title: "Error",
+          description:
+            "There was an error updating your event. Please try again.",
+        });
       }
-    } catch (error) {
-      console.error("Error creating event:", error);
-      toast({
-        title: "Error",
-        description:
-          "There was an error creating your event. Please try again.",
-      });
+    } else {
+      try {
+        const newEvent = await createEvent(values);
+        form.reset();
+        toast({
+          title: "Success",
+          description: "Your event has been created.",
+        });
+        if (newEvent.data && newEvent.data.length > 0) {
+          router.push(`/events/${newEvent.data[0].id}`);
+        }
+      } catch (error) {
+        console.error("Error creating event:", error);
+        toast({
+          title: "Error",
+          description:
+            "There was an error creating your event. Please try again.",
+        });
+      }
     }
   }
 
@@ -152,9 +174,9 @@ const CreateEventForm = () => {
               type={type}
               value={
                 field.value instanceof Date
-                  ? field.value.toISOString().split("T")[0]
+                  ? field.value.toISOString().split("T")[0] // Convert Date to string
                   : Array.isArray(field.value)
-                    ? JSON.stringify(field.value)
+                    ? JSON.stringify(field.value) // Convert array to string
                     : field.value
               }
             />
@@ -291,7 +313,7 @@ const CreateEventForm = () => {
                     <Input
                       className="text-xl"
                       {...form.register(`event_items.${categoryIndex}.name`)}
-                      placeholder="Category Name"
+                      placeholder="Appetizers"
                     />
                   </div>
                 </div>
@@ -340,4 +362,4 @@ const CreateEventForm = () => {
   );
 };
 
-export default CreateEventForm;
+export default EventForm;

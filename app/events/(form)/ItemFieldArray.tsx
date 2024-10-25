@@ -1,15 +1,15 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { EventType } from "@/types/Event"; // Adjust the import path as needed
 import { Minus, Plus } from "lucide-react";
 import React from "react";
 import { Control, UseFormRegister, useFieldArray } from "react-hook-form";
-import { FormValues } from "./page"; // Adjust the import path as needed
 
 interface ItemFieldArrayProps {
   nestIndex: number;
-  control: Control<FormValues>;
-  register: UseFormRegister<FormValues>;
+  control: Control<EventType>;
+  register: UseFormRegister<EventType>;
 }
 
 const ItemFieldArray: React.FC<ItemFieldArrayProps> = ({

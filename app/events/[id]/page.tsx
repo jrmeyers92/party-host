@@ -1,4 +1,4 @@
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 
 import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";
@@ -16,7 +16,17 @@ const fetchEvent = async (id: string) => {
 };
 
 export default async function Page({ params }: { params: { id: string } }) {
+  const supabase = createClient();
+  const user = await supabase.auth.getUser();
   const { event, error } = await fetchEvent(params.id);
+
+  let usersEvent;
+
+  if (user?.data?.user?.id == event.user_id) {
+    usersEvent = true;
+  } else {
+    usersEvent = false;
+  }
 
   if (error) {
     console.error("Error fetching event: ", error);
@@ -51,14 +61,17 @@ export default async function Page({ params }: { params: { id: string } }) {
           <div className="flex items-center justify-between">
             <h1 className="text-4xl font-bold">{event.event_name}</h1>
             <div className="flex flex-col gap-2">
-              <DeleteEventDialog eventId={params.id} />
-
-              <Link
-                href={`/events/${params.id}/edit`}
-                className={buttonVariants()}
-              >
-                Edit Event
-              </Link>
+              {usersEvent && (
+                <div className="flex flex-col gap-2">
+                  <Link
+                    href={`/events/${params.id}/edit`}
+                    className={buttonVariants()}
+                  >
+                    Edit Event
+                  </Link>
+                  <DeleteEventDialog eventId={params.id} />
+                </div>
+              )}
             </div>
           </div>
           <p className="text-sm text-muted-foreground">

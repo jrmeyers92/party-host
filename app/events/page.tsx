@@ -46,7 +46,6 @@ const Events = async () => {
     console.error("Error fetching events: ", error);
     return <div>Error fetching events</div>;
   } else {
-    console.log("Events: ", events);
   }
 
   return (

@@ -27,8 +27,6 @@ const createEvent = async (eventData: EventData) => {
       return { error: error.message || "Error creating event" };
     }
 
-    console.log(data);
-
     return { data };
   } catch (error) {
     console.error("Unexpected error creating event: ", error);

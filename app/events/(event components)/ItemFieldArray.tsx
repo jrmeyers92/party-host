@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { EventType } from "@/types/Event"; // Adjust the import path as needed
+import { EventType } from "@/types/Event";
 import { Minus, Plus } from "lucide-react";
 import React from "react";
 import { Control, UseFormRegister, useFieldArray } from "react-hook-form";

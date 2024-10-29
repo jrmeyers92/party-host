@@ -15,6 +15,8 @@ export const metadata = {
   title: "Party Host",
   description:
     "Plan the perfect party with ease! Create custom lists for food, drinks, and decor, and let guests sign up to bring what you need. Simplify your party planning today.",
+  keywords:
+    "party planning, event planning, party host, party lists, party decor, party food, party drinks",
 };
 
 export default function RootLayout({

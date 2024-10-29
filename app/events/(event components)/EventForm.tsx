@@ -80,6 +80,7 @@ const EventForm: React.FC<EventFormProps> = ({ event, eventId }) => {
     event_city: event?.event_city || "",
     event_state: event?.event_state || "",
     event_zip_code: event?.event_zip_code || "",
+    event_guest_count: event?.event_guest_count || "",
     event_date: event ? new Date(event.event_date) : new Date(),
     event_items: event?.event_items || defaultEventItems,
   };
@@ -245,6 +246,8 @@ const EventForm: React.FC<EventFormProps> = ({ event, eventId }) => {
             {renderFormField("event_start_time", "Start Time", "", "time")}
             {renderFormField("event_end_time", "End Time", "", "time")}
           </div>
+          {renderFormField("event_guest_count", "Guest Count", "", "number")}
+
           {renderFormField(
             "event_location",
             "Event Location (optional)",

@@ -1,25 +1,52 @@
 "use client";
+import updateEvent from "@/actions/update-event";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useToast } from "@/hooks/use-toast";
 import { EventType } from "@/types/Event";
 import { Controller, useForm } from "react-hook-form";
 interface SignUpFormProps {
   event: EventType;
+  eventId: string;
 }
 
-const SignUpForm: React.FC<SignUpFormProps> = ({ event }) => {
+const SignUpForm: React.FC<SignUpFormProps> = ({ event, eventId }) => {
+  const { toast } = useToast();
   const { control, handleSubmit } = useForm({
     defaultValues: {
       event_items: event.event_items,
     },
   });
 
-  const onSubmit = (data: any) => {
+  const onSubmit = async (data: any) => {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log("Updated event items:", data.event_items);
+    console.log(event);
+    try {
+      const updatedEvent = await updateEvent(data, eventId);
+      if (updatedEvent.error) {
+        console.log("Error updating event:", updatedEvent.error);
+        toast({
+          title: "Failure",
+          description: "There was an error updating the event",
+        });
+        return;
+      } else {
+        toast({
+          title: "Success",
+          description: "Event updated successfully",
+        });
+      }
+    } catch (error) {
+      console.error("Unexpected error updating event:", error);
+      toast({
+        title: "Failure",
+        description: "There was an error updating the event",
+      });
+    }
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

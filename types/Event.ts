@@ -1,6 +1,7 @@
 export type EventItem = {
   name: string;
   who: string;
+  qty?: string;
 };
 
 export type EventCategory = {
@@ -18,6 +19,7 @@ export type EventType = {
   event_city?: string;
   event_state?: string;
   event_zip_code?: string;
+  event_guest_count?: string;
   event_date: Date; // Ensure this is Date
   event_items: EventCategory[];
 };

@@ -3,6 +3,7 @@ import { z } from "zod";
 const itemSchema = z.object({
   name: z.string(),
   who: z.string(),
+  qty: z.string().optional(),
 });
 
 export const categorySchema = z.object({
@@ -23,5 +24,6 @@ export const formSchema = z.object({
   event_state: z.string().optional(),
   event_zip_code: z.string().optional(),
   event_date: z.date(),
+  event_guest_count: z.string().optional(),
   event_items: categoryListSchema,
 });

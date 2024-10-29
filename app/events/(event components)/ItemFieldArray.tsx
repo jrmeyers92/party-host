@@ -37,6 +37,13 @@ const ItemFieldArray: React.FC<ItemFieldArrayProps> = ({
             placeholder="Item Name"
           />
           <Input
+            type="number"
+            {...register(
+              `event_items.${nestIndex}.items.${itemIndex}.qty` as const,
+            )}
+            placeholder="Item Quantity"
+          />
+          <Input
             {...register(
               `event_items.${nestIndex}.items.${itemIndex}.who` as const,
             )}

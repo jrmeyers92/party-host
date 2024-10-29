@@ -76,7 +76,7 @@ export default async function Page({ params }: { params: { id: string } }) {
       <CardContent>
         <h2 className="text-xl font-semibold">Sign Up</h2>
         <p>Sign up to bring a dish to pass at this event.</p>
-        <SignUpForm event={event} />
+        <SignUpForm event={event} eventId={params.id} />
       </CardContent>
     </Card>
   );

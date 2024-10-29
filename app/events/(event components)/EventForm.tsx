@@ -246,7 +246,7 @@ const EventForm: React.FC<EventFormProps> = ({ event, eventId }) => {
             {renderFormField("event_end_time", "End Time", "", "time")}
           </div>
           {renderFormField(
-            "event_start_location",
+            "event_location",
             "Event Location (optional)",
             "Tower Grove Park",
           )}

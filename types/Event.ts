@@ -1,9 +1,9 @@
-type EventItem = {
+export type EventItem = {
   name: string;
   who: string;
 };
 
-type EventCategory = {
+export type EventCategory = {
   name: string;
   items: EventItem[];
 };
@@ -13,7 +13,7 @@ export type EventType = {
   event_description?: string;
   event_start_time: string;
   event_end_time: string;
-  event_start_location?: string;
+  event_location?: string;
   event_street_address?: string;
   event_city?: string;
   event_state?: string;

@@ -98,7 +98,7 @@ const Events = async () => {
             );
 
             return (
-              <Card key={event.id}>
+              <Card key={event.id} className="grid">
                 <CardHeader>
                   <Badge className="absolute -translate-y-8 self-end">
                     {daysDifference} Days Away
@@ -119,8 +119,10 @@ const Events = async () => {
                     <span className="font-bold">End:</span> {eventEndTime}
                   </p>
                   <p className="mt-2">{event.event_street_address}</p>
+
                   <p>
-                    {event.event_city}, {event.event_state}{" "}
+                    {event.event_city}
+                    {event.event_state ? "," : ""} {event.event_state}{" "}
                     {event.event_zip_code}
                   </p>
                 </CardContent>

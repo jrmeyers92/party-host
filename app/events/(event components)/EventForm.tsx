@@ -59,45 +59,30 @@ const EventForm: React.FC<EventFormProps> = ({ event, eventId }) => {
     return null;
   }
 
-  let defaultValues;
-
-  if (event) {
-    defaultValues = {
-      event_name: event.event_name,
-      event_description: event.event_description,
-      event_start_time: event.event_start_time,
-      event_end_time: event.event_end_time,
-      event_street_address: event.event_street_address,
-      event_city: event.event_city,
-      event_state: event.event_state,
-      event_zip_code: event.event_zip_code,
-      event_date: new Date(event.event_date),
-      event_items: event.event_items,
-    };
-  } else {
-    defaultValues = {
-      event_name: "",
-      event_description: "",
-      event_start_time: "",
-      event_end_time: "",
-      event_street_address: "",
-      event_city: "",
-      event_state: "",
-      event_zip_code: "",
-      event_date: new Date(),
-      event_items: [
+  const defaultEventItems = [
+    {
+      name: "",
+      items: [
         {
           name: "",
-          items: [
-            {
-              name: "",
-              who: "",
-            },
-          ],
+          who: "",
         },
       ],
-    };
-  }
+    },
+  ];
+
+  const defaultValues = {
+    event_name: event?.event_name || "",
+    event_description: event?.event_description || "",
+    event_start_time: event?.event_start_time || "",
+    event_end_time: event?.event_end_time || "",
+    event_street_address: event?.event_street_address || "",
+    event_city: event?.event_city || "",
+    event_state: event?.event_state || "",
+    event_zip_code: event?.event_zip_code || "",
+    event_date: event ? new Date(event.event_date) : new Date(),
+    event_items: event?.event_items || defaultEventItems,
+  };
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -260,6 +245,12 @@ const EventForm: React.FC<EventFormProps> = ({ event, eventId }) => {
             {renderFormField("event_start_time", "Start Time", "", "time")}
             {renderFormField("event_end_time", "End Time", "", "time")}
           </div>
+          {renderFormField(
+            "event_start_location",
+            "Event Location",
+            "Tower Grove Park",
+          )}
+
           {renderFormField(
             "event_street_address",
             "Street Address",

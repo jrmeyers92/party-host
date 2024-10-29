@@ -191,7 +191,7 @@ const EventForm: React.FC<EventFormProps> = ({ event, eventId }) => {
             name="event_description"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Event Description</FormLabel>
+                <FormLabel>Event Description (optional)</FormLabel>
                 <FormControl>
                   <Textarea
                     placeholder="We're all getting together to celebrate Maddie's 40th birthday."
@@ -247,23 +247,23 @@ const EventForm: React.FC<EventFormProps> = ({ event, eventId }) => {
           </div>
           {renderFormField(
             "event_start_location",
-            "Event Location",
+            "Event Location (optional)",
             "Tower Grove Park",
           )}
 
           {renderFormField(
             "event_street_address",
-            "Street Address",
+            "Street Address (optional)",
             "123 Main St.",
           )}
           <div className="flex items-center gap-2">
-            {renderFormField("event_city", "City", "Denver")}
+            {renderFormField("event_city", "City (optional)", "Denver")}
             <FormField
               control={form.control}
               name="event_state"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>State</FormLabel>
+                  <FormLabel>State (optional)</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
@@ -286,7 +286,7 @@ const EventForm: React.FC<EventFormProps> = ({ event, eventId }) => {
                 </FormItem>
               )}
             />
-            {renderFormField("event_zip_code", "Zip Code", "80210")}
+            {renderFormField("event_zip_code", "Zip Code (optional)", "80210")}
           </div>
 
           <div>
@@ -345,7 +345,13 @@ const EventForm: React.FC<EventFormProps> = ({ event, eventId }) => {
             className="block w-full"
             disabled={form.formState.isSubmitting}
           >
-            {form.formState.isSubmitting ? "Submitting..." : "Submit"}
+            {form.formState.isSubmitting
+              ? event
+                ? "Updating..."
+                : "Creating..."
+              : event
+                ? "Update Event"
+                : "Create Event"}
           </Button>
         </form>
       </Form>

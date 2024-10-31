@@ -179,7 +179,7 @@ const EventForm: React.FC<EventFormProps> = ({ event, eventId }) => {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="mx-auto max-w-lg space-y-8"
+          className="mx-auto max-w-2xl space-y-8"
         >
           {renderFormField(
             "event_name",
@@ -297,7 +297,7 @@ const EventForm: React.FC<EventFormProps> = ({ event, eventId }) => {
             {categoryFields.map((category, categoryIndex) => (
               <div key={category.id} className="border-b py-6">
                 <div className="mb-4 flex justify-between">
-                  <div className="flex flex-1 items-center justify-between gap-2">
+                  <div className="flex flex-1 flex-col items-start justify-between gap-2 md:flex-row">
                     <Label
                       htmlFor={`event_items.${categoryIndex}.name`}
                       className="text-nowrap text-lg"

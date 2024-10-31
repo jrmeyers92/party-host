@@ -61,7 +61,12 @@ export default async function Page({ params }: { params: { id: string } }) {
       <section className="container my-12 flex w-full items-center justify-center">
         <div className="w-full max-w-2xl">
           <div className="flex items-center justify-between">
-            <h1 className="text-4xl font-bold">{event.event_name}</h1>
+            <div className="flex flex-col gap-4">
+              <h1 className="clas text-4xl font-bold">{event.event_name}</h1>
+              <p className="text-sm text-muted-foreground">
+                {event.event_description}
+              </p>
+            </div>
             <div className="flex flex-col gap-2">
               {usersEvent && (
                 <div className="flex flex-col gap-2">
@@ -78,9 +83,7 @@ export default async function Page({ params }: { params: { id: string } }) {
               )}
             </div>
           </div>
-          <p className="text-sm text-muted-foreground">
-            {event.event_description}
-          </p>
+
           <h2 className="mt-4 text-xl font-bold">When?</h2>
           <p>{eventDate}</p>
 
@@ -88,6 +91,7 @@ export default async function Page({ params }: { params: { id: string } }) {
             {eventStartTime} to {eventEndTime}
           </p>
           <h2 className="mt-4 text-xl font-bold">Where?</h2>
+          {event.event_location && <p>{event.event_location}</p>}
           <p>{event.event_street_address}</p>
           <p>
             {event.event_city}, {event.event_state} {event.event_zip_code}
@@ -108,7 +112,8 @@ export default async function Page({ params }: { params: { id: string } }) {
                           key={subItem.name}
                           className="text-muted-foreground"
                         >
-                          {subItem.name} {subItem.who && ` - ${subItem.who}`}
+                          {subItem.name} {subItem.qty && ` (${subItem.qty})`}{" "}
+                          {subItem.who && ` - ${subItem.who}`}
                         </li>
                       </div>
                     ))}

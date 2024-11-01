@@ -14,7 +14,7 @@ export default async function Nav() {
       <nav className="flex w-full items-center justify-between gap-4 px-4">
         <div className="flex items-center gap-2">
           <Link href={"/"} className="mr-8 text-2xl font-bold">
-            Party Host
+            Wat Can I Bring?
           </Link>
           <Link href="/events" className="text-lg hover:underline">
             My Events

@@ -1,6 +1,12 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { useToast } from "@/hooks/use-toast";
 import { Clipboard } from "lucide-react";
 const ShareButton = () => {
@@ -16,10 +22,19 @@ const ShareButton = () => {
     });
   };
   return (
-    <Button onClick={shareEvent}>
-      <Clipboard />
-      Share Event
-    </Button>
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger>
+          <Button onClick={shareEvent}>
+            <Clipboard />
+            Share Event
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent>
+          <p>Copy link to clipboard</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   );
 };
 

@@ -3,7 +3,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { createClient } from "@/utils/supabase/server";
 import { Pencil } from "lucide-react";
 import Link from "next/link";
-import ShareButton from "../(event components)/ShareButton";
+import ShareButton from "../_components/ShareButton";
 import DeleteEventDialog from "./edit/DeleteEventDialog";
 const fetchEvent = async (id: string) => {
   const supabase = createClient();
@@ -86,16 +86,21 @@ export default async function Page({ params }: { params: { id: string } }) {
 
           <h2 className="mt-4 text-xl font-bold">When?</h2>
           <p>{eventDate}</p>
-
           <p>
             {eventStartTime} to {eventEndTime}
           </p>
+
           <h2 className="mt-4 text-xl font-bold">Where?</h2>
           {event.event_location && <p>{event.event_location}</p>}
           <p>{event.event_street_address}</p>
           <p>
-            {event.event_city}, {event.event_state} {event.event_zip_code}
+            {event.event_city}
+            {event.event_state ? "," : ""} {event.event_state}{" "}
+            {event.event_zip_code}
           </p>
+
+          <h2 className="mt-4 text-xl font-bold">Number Invited</h2>
+          <p>{event.event_guest_count}</p>
 
           {event.event_items && (
             <div>

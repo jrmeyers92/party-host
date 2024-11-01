@@ -1,6 +1,5 @@
 "use client";
 
-import deleteEvent from "@/actions/delete-event";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Dialog,
@@ -12,6 +11,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
+import deleteEvent from "@/server/actions/delete-event";
 import { Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";

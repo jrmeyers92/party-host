@@ -1,9 +1,9 @@
 "use client";
-import createEvent from "@/actions/create-event";
 import { Button } from "@/components/ui/button";
+import { eventSchema } from "@/schemas/event";
+import createEvent from "@/server/actions/create-event";
 import { EventType } from "@/types/Event";
 import { createClient } from "@/utils/supabase/client";
-import { formSchema } from "./EventFormSchema";
 
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -34,9 +34,9 @@ import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { Calendar as CIcon, Minus, Plus } from "lucide-react";
-import states from "./States";
+import states from "../_data/States";
 
-import updateEvent from "@/actions/update-event";
+import updateEvent from "@/server/actions/update-event";
 import { useRouter } from "next/navigation";
 import { useFieldArray, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -85,8 +85,8 @@ const EventForm: React.FC<EventFormProps> = ({ event, eventId }) => {
     event_items: event?.event_items || defaultEventItems,
   };
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof eventSchema>>({
+    resolver: zodResolver(eventSchema),
     defaultValues,
   });
 
@@ -99,7 +99,7 @@ const EventForm: React.FC<EventFormProps> = ({ event, eventId }) => {
     name: "event_items",
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof eventSchema>) {
     if (event) {
       try {
         const updatedEvent = await updateEvent(values, eventId!);
@@ -142,7 +142,7 @@ const EventForm: React.FC<EventFormProps> = ({ event, eventId }) => {
   }
 
   const renderFormField = (
-    name: keyof z.infer<typeof formSchema>,
+    name: keyof z.infer<typeof eventSchema>,
     label: string,
     placeholder: string,
     type: string = "text",

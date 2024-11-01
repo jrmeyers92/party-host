@@ -1,5 +1,5 @@
 import { createClient } from "@/utils/supabase/server";
-import EventForm from "../../(event components)/EventForm";
+import EventForm from "../../_components/EventForm";
 
 const fetchEvent = async (id: string) => {
   const supabase = createClient();

@@ -1,4 +1,4 @@
-import EventForm from "../(event components)/EventForm";
+import EventForm from "@/app/events/_components/EventForm";
 
 const page = async () => {
   return (

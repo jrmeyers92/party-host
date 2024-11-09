@@ -3,6 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { GoogleTagManager } from "@next/third-parties/google";
 import { GeistSans } from "geist/font/sans";
 import { ThemeProvider } from "next-themes";
+import Head from "next/head";
 
 import "./globals.css";
 
@@ -55,7 +56,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={GeistSans.className} suppressHydrationWarning>
-      <GoogleTagManager gtmId="G-MXF61DJYTR" />
+      <Head>
+        <GoogleTagManager id="G-MXF61DJYTR" />
+      </Head>
 
       <body className="bg-background text-foreground">
         <ThemeProvider

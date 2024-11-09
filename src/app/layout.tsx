@@ -68,7 +68,7 @@ export default function RootLayout({
           </main>
         </ThemeProvider>
         <Toaster />
-        <GoogleTagManager gaId="G-MXF61DJYTR" />
+        <GoogleTagManager gtmId="G-MXF61DJYTR" />
       </body>
     </html>
   );

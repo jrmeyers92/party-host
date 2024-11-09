@@ -50,12 +50,10 @@ export default async function Page({ params }: { params: { id: string } }) {
   return (
     <Card className="my-8">
       <CardHeader className="flex flex-col gap-4">
-        <div>
-          <CardTitle className="text-3xl">{event.event_name}</CardTitle>
+        <div className="flex flex-col gap-2">
+          <CardTitle className="text-4xl">{event.event_name}</CardTitle>
           {event.event_description && (
-            <p className="mb-4 text-muted-foreground">
-              {event.event_description}
-            </p>
+            <p className="text-muted-foreground">{event.event_description}</p>
           )}
         </div>
         <div>

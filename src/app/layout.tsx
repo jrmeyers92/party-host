@@ -3,7 +3,6 @@ import { Toaster } from "@/components/ui/toaster";
 import { GoogleTagManager } from "@next/third-parties/google";
 import { GeistSans } from "geist/font/sans";
 import { ThemeProvider } from "next-themes";
-import Head from "next/head";
 
 import "./globals.css";
 

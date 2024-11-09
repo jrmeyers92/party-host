@@ -70,6 +70,7 @@ export default async function Page({ params }: { params: { id: string } }) {
         </div>
         <div>
           <h2 className="mb-2 text-2xl font-bold">Where</h2>
+          <p>{event.event_location}</p>
           <p className="mt-2">{event.event_street_address}</p>
           <p>
             {event.event_city}

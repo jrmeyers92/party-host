@@ -12,11 +12,40 @@ const defaultUrl = process.env.VERCEL_URL
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
-  title: "Party Host",
+  title: "Wat Can I Bring",
   description:
     "Plan the perfect party with ease! Create custom lists for food, drinks, and decor, and let guests sign up to bring what you need. Simplify your party planning today.",
   keywords:
     "party planning, event planning, party host, party lists, party decor, party food, party drinks",
+  openGraph: {
+    title: "Wat Can I Bring",
+    description:
+      "Plan the perfect party with ease! Create custom lists for food, drinks, and decor, and let guests sign up to bring what you need. Simplify your party planning today.",
+    type: "website",
+    url: new URL(defaultUrl),
+    images: [
+      {
+        url: "https://kwtcoagmhswockdqbwij.supabase.co/storage/v1/object/public/pub/watCanIBringPic.png",
+        width: 1200,
+        height: 630,
+        alt: "Screenshot of an event on watcanibring.com",
+      },
+    ],
+    site_name: "Wat Can I Bring",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Wat Can I Bring",
+    description:
+      "Plan the perfect party with ease! Create custom lists for food, drinks, and decor, and let guests sign up to bring what you need. Simplify your party planning today.",
+    images: [
+      {
+        url: "https://kwtcoagmhswockdqbwij.supabase.co/storage/v1/object/public/pub/watCanIBringPic.png",
+        alt: "Screenshot of an event on watcanibring.com",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({

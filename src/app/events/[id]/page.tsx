@@ -59,7 +59,7 @@ export default async function Page({ params }: { params: { id: string } }) {
 
     return (
       <section className="container my-12 flex w-full items-center justify-center">
-        <div className="flex w-full max-w-2xl flex-col gap-2">
+        <div className="flex w-full max-w-2xl flex-col gap-6">
           <div className="flex gap-2">
             {usersEvent && (
               <div className="flex gap-2">
@@ -77,18 +77,18 @@ export default async function Page({ params }: { params: { id: string } }) {
           </div>
           <div className="flex flex-col gap-4">
             <h1 className="text-4xl font-bold">{event.event_name}</h1>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-md text-muted-foreground">
               {event.event_description}
             </p>
           </div>
 
-          <h2 className="mt-4 text-xl font-bold">When?</h2>
+          <h2 className="mt-4 text-2xl font-bold">When?</h2>
           <p>{eventDate}</p>
           <p>
             {eventStartTime} to {eventEndTime}
           </p>
 
-          <h2 className="mt-4 text-xl font-bold">Where?</h2>
+          <h2 className="mt-4 text-2xl font-bold">Where?</h2>
           {event.event_location && <p>{event.event_location}</p>}
           <p>{event.event_street_address}</p>
           <p>
@@ -97,17 +97,17 @@ export default async function Page({ params }: { params: { id: string } }) {
             {event.event_zip_code}
           </p>
 
-          <h2 className="mt-4 text-xl font-bold">Number Invited</h2>
+          <h2 className="mt-4 text-2xl font-bold">Number Invited</h2>
           <p>{event.event_guest_count}</p>
 
           {event.event_items && (
             <div>
-              <h2 className="mb-4 mt-8 text-xl font-bold">
+              <h2 className="mb-4 mt-8 text-2xl font-bold">
                 Event Sign Up List
               </h2>
               {event.event_items.map((item: any) => (
                 <div key={item.name} className="mb-3 flex flex-col">
-                  <h3 className="text-lg">{item.name}</h3>
+                  <h3 className="text-lg font-semibold">{item.name}</h3>
                   <ul>
                     {item.items.map((subItem: any) => (
                       <div key={subItem.name}>
@@ -125,7 +125,7 @@ export default async function Page({ params }: { params: { id: string } }) {
               ))}
               {event.event_additional_items && (
                 <>
-                  <h2 className="mb-4 mt-8 text-xl font-bold">
+                  <h2 className="mb-4 mt-8 text-2xl font-bold">
                     Additional Items
                   </h2>
                   <ul>

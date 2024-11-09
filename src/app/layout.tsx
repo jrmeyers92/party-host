@@ -56,10 +56,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={GeistSans.className} suppressHydrationWarning>
-      <Head>
-        <GoogleTagManager id="G-MXF61DJYTR" />
-      </Head>
-
       <body className="bg-background text-foreground">
         <ThemeProvider
           attribute="class"
@@ -73,6 +69,7 @@ export default function RootLayout({
           </main>
         </ThemeProvider>
         <Toaster />
+        <GoogleTagManager gaId="G-MXF61DJYTR" />
       </body>
     </html>
   );

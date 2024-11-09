@@ -25,7 +25,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   }
 
   console.log(event);
-  console.log(event.event_items);
+  console.log(event.event_items[0]);
 
   const eventStartTime = new Date(
     `1970-01-01T${event.event_start_time}`,
@@ -75,7 +75,10 @@ export default async function Page({ params }: { params: { id: string } }) {
       </CardHeader>
       <CardContent>
         <h2 className="text-xl font-semibold">Sign Up</h2>
-        <p>Sign up to bring a dish to pass at this event.</p>
+        <p>
+          Sign up to bring a dish to pass at this event. There are{" "}
+          {event.event_guest_count} people invited to this event.
+        </p>
         <SignUpForm event={event} eventId={params.id} />
       </CardContent>
     </Card>

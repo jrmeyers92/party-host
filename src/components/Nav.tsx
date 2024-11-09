@@ -1,5 +1,6 @@
 import { signOutAction } from "@/app/actions";
 import { createClient } from "@/utils/supabase/server";
+import { ChefHat } from "lucide-react";
 import Link from "next/link";
 import { ThemeSwitcher } from "./theme-switcher";
 import { Button } from "./ui/button";
@@ -13,8 +14,11 @@ export default async function Nav() {
     <header className="flex w-full items-center justify-center border-b py-8">
       <nav className="flex w-full items-center justify-between gap-4 px-4">
         <div className="flex items-center gap-2">
-          <Link href={"/"} className="mr-8 text-2xl font-bold">
-            Wat Can I Bring?
+          <Link
+            href={"/"}
+            className="mr-8 flex items-center gap-2 text-2xl font-bold"
+          >
+            <ChefHat size={40} /> Wat Can I Bring?
           </Link>
           <Link href="/events" className="text-lg hover:underline">
             My Events
@@ -36,8 +40,8 @@ export default async function Nav() {
   ) : (
     <header className="my-8 flex w-full items-center justify-center">
       <nav className="flex w-full max-w-2xl items-center justify-between gap-2 px-4">
-        <Link href={"/"} className="text-2xl font-bold">
-          Party Host
+        <Link href={"/"} className="flex items-center gap-2 text-2xl font-bold">
+          <ChefHat size={40} /> Wat Can I Bring?
         </Link>
         <div className="flex items-center gap-2">
           <ThemeSwitcher />

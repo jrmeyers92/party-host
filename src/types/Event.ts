@@ -20,6 +20,18 @@ export type EventType = {
   event_state?: string;
   event_zip_code?: string;
   event_guest_count?: string;
+  event_enable_additional_items?: boolean;
   event_date: Date; // Ensure this is Date
-  event_items: EventCategory[];
+  event_items: {
+    name: string;
+    items: {
+      name: string;
+      who?: string;
+      qty?: string;
+    }[];
+  }[];
+  event_additional_items?: {
+    name: string;
+    qty?: string;
+  }[];
 };

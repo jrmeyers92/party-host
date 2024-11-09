@@ -10,6 +10,7 @@ interface EventData {
   event_street_address?: string;
   event_city?: string;
   event_state?: string;
+  event_enable_additional_items?: boolean;
   event_zip_code?: string;
   event_date: Date | string;
 }

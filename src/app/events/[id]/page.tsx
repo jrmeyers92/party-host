@@ -6,6 +6,7 @@ import Link from "next/link";
 import ShareButton from "../_components/ShareButton";
 import DeleteEventDialog from "./edit/DeleteEventDialog";
 const fetchEvent = async (id: string) => {
+  console.log("single page");
   const supabase = createClient();
 
   const { data: event, error } = await supabase

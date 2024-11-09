@@ -1,5 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { eventSchema } from "@/schemas/event";
 import createEvent from "@/server/actions/create-event";
 import { EventType } from "@/types/Event";
@@ -9,6 +10,7 @@ import { Calendar } from "@/components/ui/calendar";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -34,6 +36,7 @@ import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { Calendar as CIcon, Minus, Plus } from "lucide-react";
+import Link from "next/link";
 import states from "../_data/States";
 
 import updateEvent from "@/server/actions/update-event";
@@ -81,8 +84,10 @@ const EventForm: React.FC<EventFormProps> = ({ event, eventId }) => {
     event_state: event?.event_state || "",
     event_zip_code: event?.event_zip_code || "",
     event_guest_count: event?.event_guest_count || "",
+    event_enable_additional_items: event?.event_enable_additional_items || true,
     event_date: event ? new Date(event.event_date) : new Date(),
     event_items: event?.event_items || defaultEventItems,
+    event_additional_items: event?.event_additional_items || [],
   };
 
   const form = useForm<z.infer<typeof eventSchema>>({
@@ -163,7 +168,9 @@ const EventForm: React.FC<EventFormProps> = ({ event, eventId }) => {
                   ? field.value.toISOString().split("T")[0] // Convert Date to string
                   : Array.isArray(field.value)
                     ? JSON.stringify(field.value) // Convert array to string
-                    : field.value
+                    : typeof field.value === "boolean"
+                      ? field.value.toString() // Convert boolean to string
+                      : field.value
               }
             />
           </FormControl>
@@ -291,6 +298,27 @@ const EventForm: React.FC<EventFormProps> = ({ event, eventId }) => {
             />
             {renderFormField("event_zip_code", "Zip Code (optional)", "80210")}
           </div>
+
+          <FormField
+            control={form.control}
+            name="event_enable_additional_items"
+            render={({ field }) => (
+              <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 shadow">
+                <FormControl>
+                  <Checkbox
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                </FormControl>
+                <div className="space-y-1 leading-none">
+                  <FormLabel>
+                    Enable guests to sign up for to bring assitional items that
+                    are not on your curated list
+                  </FormLabel>
+                </div>
+              </FormItem>
+            )}
+          />
 
           <div>
             <h2 className="mb-4 mt-20 text-2xl">Sign up List</h2>

@@ -126,6 +126,20 @@ export default async function Page({ params }: { params: { id: string } }) {
                   </ul>
                 </div>
               ))}
+              {event.event_additional_items && (
+                <>
+                  <h2 className="mb-4 mt-8 text-xl font-bold">
+                    Additional Items
+                  </h2>
+                  <ul>
+                    {event.event_additional_items.map((item: any) => (
+                      <li key={item.name} className="text-muted-foreground">
+                        {item.name} {item.who && ` - ${item.who}`}
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
             </div>
           )}
         </div>

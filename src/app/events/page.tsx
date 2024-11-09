@@ -26,10 +26,14 @@ const fetchUser = async () => {
 const fetchEvents = async (userId: string) => {
   const supabase = createClient();
 
+  const today = new Date().toISOString().split("T")[0]; // Get today's date in YYYY-MM-DD format
+
   const { data: events, error } = await supabase
     .from("events")
     .select("*")
-    .eq("user_id", userId);
+    .eq("user_id", userId)
+    .gte("event_date", today) // Filter for today or future dates
+    .limit(15); // Limit to 15 events
 
   return { events, error };
 };

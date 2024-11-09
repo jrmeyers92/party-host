@@ -59,29 +59,27 @@ export default async function Page({ params }: { params: { id: string } }) {
 
     return (
       <section className="container my-12 flex w-full items-center justify-center">
-        <div className="w-full max-w-2xl">
-          <div className="flex items-center justify-between">
-            <div className="flex flex-col gap-4">
-              <h1 className="clas text-4xl font-bold">{event.event_name}</h1>
-              <p className="text-sm text-muted-foreground">
-                {event.event_description}
-              </p>
-            </div>
-            <div className="flex flex-col gap-2">
-              {usersEvent && (
-                <div className="flex flex-col gap-2">
-                  <ShareButton />
-                  <Link
-                    href={`/events/${params.id}/edit`}
-                    className={buttonVariants({ variant: "secondary" })}
-                  >
-                    <Pencil />
-                    Edit Event
-                  </Link>
-                  <DeleteEventDialog eventId={params.id} />
-                </div>
-              )}
-            </div>
+        <div className="flex w-full max-w-2xl flex-col gap-2">
+          <div className="flex gap-2">
+            {usersEvent && (
+              <div className="flex gap-2">
+                <ShareButton />
+                <Link
+                  href={`/events/${params.id}/edit`}
+                  className={buttonVariants({ variant: "secondary" })}
+                >
+                  <Pencil />
+                  Edit Event
+                </Link>
+                <DeleteEventDialog eventId={params.id} />
+              </div>
+            )}
+          </div>
+          <div className="flex flex-col gap-4">
+            <h1 className="text-4xl font-bold">{event.event_name}</h1>
+            <p className="text-sm text-muted-foreground">
+              {event.event_description}
+            </p>
           </div>
 
           <h2 className="mt-4 text-xl font-bold">When?</h2>

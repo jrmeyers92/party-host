@@ -112,7 +112,6 @@ const EventForm: React.FC<EventFormProps> = ({ event, eventId }) => {
           title: "Success",
           description: "Your event has been updated.",
         });
-        console.log(updatedEvent);
         if (updatedEvent.data && updatedEvent.data.length > 0) {
           router.push(`/events/${updatedEvent.data[0].id}`);
         }

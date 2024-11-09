@@ -24,9 +24,6 @@ export default async function Page({ params }: { params: { id: string } }) {
     return <div>Error fetching event</div>;
   }
 
-  console.log(event);
-  console.log(event.event_items[0]);
-
   const eventStartTime = new Date(
     `1970-01-01T${event.event_start_time}`,
   ).toLocaleTimeString("en-US", {
@@ -52,29 +49,39 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   return (
     <Card className="my-8">
-      <CardHeader>
-        <CardTitle className="text-3xl">{event.event_name}</CardTitle>
-        {event.event_description && (
-          <p className="text-muted-foreground">{event.event_description}</p>
-        )}
-        <p>
-          <span className="font-bold">Date:</span> {eventDate}
-        </p>
-        <p>
-          <span className="font-bold">Start:</span> {eventStartTime}
-        </p>
-        <p>
-          <span className="font-bold">End:</span> {eventEndTime}
-        </p>
-        <p className="mt-2">{event.event_street_address}</p>
-        <p>
-          {event.event_city}
-          {event.event_state ? "," : ""} {event.event_state}{" "}
-          {event.event_zip_code}
-        </p>
+      <CardHeader className="flex flex-col gap-4">
+        <div>
+          <CardTitle className="text-3xl">{event.event_name}</CardTitle>
+          {event.event_description && (
+            <p className="mb-4 text-muted-foreground">
+              {event.event_description}
+            </p>
+          )}
+        </div>
+        <div>
+          <h2 className="mb-2 text-2xl font-bold">When</h2>
+          <p>
+            <span className="font-bold">Date:</span> {eventDate}
+          </p>
+          <p>
+            <span className="font-bold">Start:</span> {eventStartTime}
+          </p>
+          <p>
+            <span className="font-bold">End:</span> {eventEndTime}
+          </p>
+        </div>
+        <div>
+          <h2 className="mb-2 text-2xl font-bold">Where</h2>
+          <p className="mt-2">{event.event_street_address}</p>
+          <p>
+            {event.event_city}
+            {event.event_state ? "," : ""} {event.event_state}{" "}
+            {event.event_zip_code}
+          </p>
+        </div>
       </CardHeader>
       <CardContent>
-        <h2 className="text-xl font-semibold">Sign Up</h2>
+        <h2 className="mb-2 text-2xl font-bold">Sign Up</h2>
         <p>
           Sign up to bring a dish to pass at this event. There are{" "}
           {event.event_guest_count} people invited to this event.

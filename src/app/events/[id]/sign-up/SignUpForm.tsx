@@ -74,7 +74,6 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ event, eventId }) => {
       });
     });
 
-    console.log(data);
     try {
       const updatedEvent = await updateEvent(data, eventId);
       if (updatedEvent.error) {
@@ -132,6 +131,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ event, eventId }) => {
                   )}
                   <Label className="text-nowrap">{item.name}</Label>
                 </div>
+
                 {item.who && <p>{item.who}</p>}
                 {!item.who &&
                   watch(
@@ -171,11 +171,13 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ event, eventId }) => {
               </div>
             </div>
             {somethingElse && (
-              <>
+              <div className="my-4">
                 {fields.map((field, index) => (
-                  <div key={field.id} className="my-4 flex gap-2">
-                    <div>
-                      <Label className="text-nowrap">Item</Label>
+                  <div
+                    key={field.id}
+                    className="my-2 flex max-w-[800px] justify-between gap-2 text-sm text-muted-foreground"
+                  >
+                    <div className="w-1/2">
                       {field.name ? (
                         <p>{field.name}</p>
                       ) : (
@@ -186,8 +188,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ event, eventId }) => {
                         />
                       )}
                     </div>
-                    <div>
-                      <Label className="text-nowrap">Name</Label>
+                    <div className="w-1/2">
                       {field.who ? (
                         <p>{field.who}</p>
                       ) : (
@@ -206,7 +207,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ event, eventId }) => {
                 >
                   Add Another Item
                 </Button>
-              </>
+              </div>
             )}
           </>
         )}

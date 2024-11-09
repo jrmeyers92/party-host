@@ -2,7 +2,6 @@ import { createClient } from "@/utils/supabase/server";
 import EventForm from "../../_components/EventForm";
 
 const fetchEvent = async (id: string) => {
-  console.log("edit");
   const supabase = createClient();
 
   const user = await supabase.auth.getUser();
@@ -23,8 +22,6 @@ const fetchEvent = async (id: string) => {
 const page = async ({ params }: { params: { id: string } }) => {
   // get id from url parameters
   const event = await fetchEvent(params.id);
-
-  console.log(params.id);
 
   return (
     <div>

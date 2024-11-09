@@ -24,8 +24,6 @@ const updateEvent = async (
   eventData: EventData,
   eventId: string,
 ): Promise<UpdateEventResult> => {
-  console.log("Event Data:", eventData);
-  console.log("Event ID:", eventId);
   try {
     if (eventData.event_date instanceof Date) {
       eventData.event_date = eventData.event_date.toISOString();
@@ -37,14 +35,11 @@ const updateEvent = async (
       .eq("id", eventId)
       .select();
 
-    console.log("Data:", data);
-
     if (error) {
       console.error("Error updating event:", error);
       return { error: error.message || "Error updating event" };
     }
 
-    console.log("Update successful:", data);
     return { data };
   } catch (error) {
     console.error("Unexpected error updating event:", error);

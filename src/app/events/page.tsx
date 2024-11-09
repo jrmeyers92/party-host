@@ -14,7 +14,6 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 const fetchUser = async () => {
-  console.log("events");
   const supabase = createClient();
 
   const {

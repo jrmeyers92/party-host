@@ -6,7 +6,14 @@ const getEventCount = async () => {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  console.log(user.id);
+  if (!user) {
+    // Handle the case where user is null, e.g., return an error or redirect
+    return {
+      events: [],
+      error: new Error("User is not authenticated"),
+      totalEvents: 0,
+    };
+  }
 
   const { count: totalEvents, error: countError } = await supabase
     .from("events")
@@ -22,7 +29,7 @@ const getEventCount = async () => {
 const page = async () => {
   const { totalEvents } = await getEventCount();
 
-  if (totalEvents >= 4) {
+  if (totalEvents && totalEvents >= 4) {
     return (
       <div>
         Event limit reached. Please upgrade to pro to create another event

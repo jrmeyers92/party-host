@@ -155,50 +155,59 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ event, eventId }) => {
         </div>
       ))}
       <div className="my-4">
-        <div className="flex items-center gap-4">
-          <h2 className="text-lg font-bold">Want to bring something else?</h2>
-          <div className="flex items-center gap-2">
-            <Label className="text-nowrap">Yes</Label>
-            <Checkbox
-              onCheckedChange={(checkedState) =>
-                setSomethingElse(checkedState as boolean)
-              }
-            />
-          </div>
-        </div>
-        {somethingElse && (
+        {event.event_enable_additional_items && (
           <>
-            {fields.map((field, index) => (
-              <div key={field.id} className="my-4 flex gap-2">
-                <div>
-                  <Label className="text-nowrap">Item</Label>
-                  {field.name ? (
-                    <p>{field.name}</p>
-                  ) : (
-                    <Input
-                      placeholder="Green Beans"
-                      className="border-2"
-                      {...register(`event_additional_items.${index}.name`)}
-                    />
-                  )}
-                </div>
-                <div>
-                  <Label className="text-nowrap">Name</Label>
-                  {field.who ? (
-                    <p>{field.who}</p>
-                  ) : (
-                    <Input
-                      placeholder="Jane Doe"
-                      className="border-2"
-                      {...register(`event_additional_items.${index}.who`)}
-                    />
-                  )}
-                </div>
+            <div className="flex items-center gap-4">
+              <h2 className="text-lg font-bold">
+                Want to bring something else?
+              </h2>
+              <div className="flex items-center gap-2">
+                <Label className="text-nowrap">Yes</Label>
+                <Checkbox
+                  onCheckedChange={(checkedState) =>
+                    setSomethingElse(checkedState as boolean)
+                  }
+                />
               </div>
-            ))}
-            <Button type="button" onClick={() => append({ name: "", who: "" })}>
-              Add Another Item
-            </Button>
+            </div>
+            {somethingElse && (
+              <>
+                {fields.map((field, index) => (
+                  <div key={field.id} className="my-4 flex gap-2">
+                    <div>
+                      <Label className="text-nowrap">Item</Label>
+                      {field.name ? (
+                        <p>{field.name}</p>
+                      ) : (
+                        <Input
+                          placeholder="Green Beans"
+                          className="border-2"
+                          {...register(`event_additional_items.${index}.name`)}
+                        />
+                      )}
+                    </div>
+                    <div>
+                      <Label className="text-nowrap">Name</Label>
+                      {field.who ? (
+                        <p>{field.who}</p>
+                      ) : (
+                        <Input
+                          placeholder="Jane Doe"
+                          className="border-2"
+                          {...register(`event_additional_items.${index}.who`)}
+                        />
+                      )}
+                    </div>
+                  </div>
+                ))}
+                <Button
+                  type="button"
+                  onClick={() => append({ name: "", who: "" })}
+                >
+                  Add Another Item
+                </Button>
+              </>
+            )}
           </>
         )}
       </div>

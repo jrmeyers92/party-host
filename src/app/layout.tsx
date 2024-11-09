@@ -56,6 +56,14 @@ export default function RootLayout({
   return (
     <html lang="en" className={GeistSans.className} suppressHydrationWarning>
       <body className="bg-background text-foreground">
+        <noscript>
+          <iframe
+            src="https://www.googletagmanager.com/ns.html?id=GTM-KB753XPX"
+            height="0"
+            width="0"
+            style={{ display: "none", visibility: "hidden" }}
+          ></iframe>
+        </noscript>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -68,7 +76,7 @@ export default function RootLayout({
           </main>
         </ThemeProvider>
         <Toaster />
-        <GoogleTagManager gtmId="G-MXF61DJYTR" />
+        <GoogleTagManager gtmId="GTM-KB753XPX" />
       </body>
     </html>
   );

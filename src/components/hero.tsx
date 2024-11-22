@@ -1,3 +1,4 @@
+import { PartyPopper } from "lucide-react";
 import Link from "next/link";
 import { buttonVariants } from "./ui/button";
 
@@ -10,8 +11,8 @@ export default function Hero() {
         you need—food, drinks, decor, and more. Your perfect gathering is just a
         few clicks away!
       </p>
-      <Link href="/sign-up" className={buttonVariants()}>
-        Start Planning Your Party
+      <Link href="/sign-up" className={buttonVariants({ size: "xl" })}>
+        Start Planning Your Party <PartyPopper size={64} />
       </Link>
     </div>
   );

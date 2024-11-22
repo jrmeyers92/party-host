@@ -66,34 +66,41 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ event, eventId }) => {
 
   return (
     <form className="my-8" onSubmit={handleSubmit(onSubmit)}>
-      {event.event_items.map((category, categoryIndex) => (
-        <div key={category.name} className="mb-4">
-          <h2 className="mb-2 text-lg">{category.name}</h2>
-          {category.items.map((item, itemIndex) => (
-            <div
-              key={item.name}
-              className="my-2 flex max-w-[400px] items-center justify-between"
-            >
-              {!item.who && (
-                <>
-                  <Input value={item.name} disabled />
-                  <Controller
-                    name={`event_items.${categoryIndex}.items.${itemIndex}.who`}
-                    control={control}
-                    render={({ field }) => (
-                      <Input
-                        {...field}
-                        placeholder="Your name"
-                        className="w-[200px]"
+      {event.event_items.map((category, categoryIndex) => {
+        // Check if any item in the category does not have a `who` value
+        const hasUnassignedItems = category.items.some((item) => !item.who);
+
+        return (
+          hasUnassignedItems && (
+            <div key={category.name} className="mb-4">
+              <h2 className="mb-2 text-lg">{category.name}</h2>
+              {category.items.map((item, itemIndex) => (
+                <div
+                  key={item.name}
+                  className="my-2 flex max-w-[400px] items-center justify-between"
+                >
+                  {!item.who && (
+                    <>
+                      <Input value={item.name} disabled />
+                      <Controller
+                        name={`event_items.${categoryIndex}.items.${itemIndex}.who`}
+                        control={control}
+                        render={({ field }) => (
+                          <Input
+                            {...field}
+                            placeholder="Your name"
+                            className="w-[200px]"
+                          />
+                        )}
                       />
-                    )}
-                  />
-                </>
-              )}
+                    </>
+                  )}
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      ))}
+          )
+        );
+      })}
       <Button type="submit">Sign Up</Button>
     </form>
   );

@@ -19,6 +19,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   const { event, error }: { event: EventType; error: any } = await fetchEvent(
     params.id,
   );
+
   if (error) {
     console.error("Error fetching event: ", error);
     return <div>Error fetching event</div>;

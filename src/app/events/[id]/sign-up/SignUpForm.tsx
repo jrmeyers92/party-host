@@ -64,43 +64,56 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ event, eventId }) => {
     window.location.reload();
   };
 
+  // Check if there are any unassigned items
+  const hasUnassignedItems = event.event_items.some((category) =>
+    category.items.some((item) => !item.who),
+  );
+
   return (
     <form className="my-8" onSubmit={handleSubmit(onSubmit)}>
-      {event.event_items.map((category, categoryIndex) => {
-        // Check if any item in the category does not have a `who` value
-        const hasUnassignedItems = category.items.some((item) => !item.who);
+      {hasUnassignedItems ? (
+        event.event_items.map((category, categoryIndex) => {
+          // Check if any item in the category does not have a `who` value
+          const hasUnassignedItemsInCategory = category.items.some(
+            (item) => !item.who,
+          );
 
-        return (
-          hasUnassignedItems && (
-            <div key={category.name} className="mb-4">
-              <h2 className="mb-2 text-lg">{category.name}</h2>
-              {category.items.map((item, itemIndex) => (
-                <div
-                  key={item.name}
-                  className="my-2 flex max-w-[400px] items-center justify-between"
-                >
-                  {!item.who && (
-                    <>
-                      <Input value={item.name} disabled />
-                      <Controller
-                        name={`event_items.${categoryIndex}.items.${itemIndex}.who`}
-                        control={control}
-                        render={({ field }) => (
-                          <Input
-                            {...field}
-                            placeholder="Your name"
-                            className="w-[200px]"
-                          />
-                        )}
-                      />
-                    </>
-                  )}
-                </div>
-              ))}
-            </div>
-          )
-        );
-      })}
+          return (
+            hasUnassignedItemsInCategory && (
+              <div key={category.name} className="mb-4">
+                <h2 className="mb-2 text-lg">{category.name}</h2>
+                {category.items.map((item, itemIndex) => (
+                  <div
+                    key={item.name}
+                    className="my-2 flex max-w-[400px] items-center justify-between"
+                  >
+                    {!item.who && (
+                      <>
+                        <Input value={item.name} disabled />
+                        <Controller
+                          name={`event_items.${categoryIndex}.items.${itemIndex}.who`}
+                          control={control}
+                          render={({ field }) => (
+                            <Input
+                              {...field}
+                              placeholder="Your name"
+                              className="w-[200px]"
+                            />
+                          )}
+                        />
+                      </>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )
+          );
+        })
+      ) : (
+        <p className="mb-4">
+          JK. Everything has already been signed up to bring.
+        </p>
+      )}
       <Button type="submit">Sign Up</Button>
     </form>
   );

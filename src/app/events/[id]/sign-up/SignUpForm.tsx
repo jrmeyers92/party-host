@@ -74,19 +74,21 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ event, eventId }) => {
               key={item.name}
               className="my-2 flex max-w-[400px] items-center justify-between"
             >
-              <Input value={item.name} disabled />
               {!item.who && (
-                <Controller
-                  name={`event_items.${categoryIndex}.items.${itemIndex}.who`}
-                  control={control}
-                  render={({ field }) => (
-                    <Input
-                      {...field}
-                      placeholder="Your name"
-                      className="w-[200px]"
-                    />
-                  )}
-                />
+                <>
+                  <Input value={item.name} disabled />
+                  <Controller
+                    name={`event_items.${categoryIndex}.items.${itemIndex}.who`}
+                    control={control}
+                    render={({ field }) => (
+                      <Input
+                        {...field}
+                        placeholder="Your name"
+                        className="w-[200px]"
+                      />
+                    )}
+                  />
+                </>
               )}
             </div>
           ))}
